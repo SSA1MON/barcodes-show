@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 from barcode import Code39
 from barcode.writer import ImageWriter
@@ -7,6 +7,20 @@ from barcode.writer import ImageWriter
 
 # TODO: rework
 BARCODE_TYPE = Code39
+
+
+# def about_help_menu():
+#     about_window = tk.Toplevel(padx=10, pady=10)
+#     about_window.focus()
+#     about_window.title("About Barcodes show")
+#     about_window.geometry("400x250")
+#     about_window.minsize(400, 250)
+#     about_window.maxsize(400, 250)
+#
+#     about_label1 = ttk.Label(about_window, text="alpha-build", font=('Verdana', 12))
+#     about_label2 = ttk.Label(about_window, text="Github")
+#     about_label1.pack()
+#     about_label2.pack()
 
 
 def generate_barcode(event=None):
@@ -34,6 +48,12 @@ window.title('Barcodes show')
 window.geometry('650x500')
 window.minsize(650, 500)
 
+# menubar = tk.Menu(window)
+# help_menu = tk.Menu(menubar, tearoff=0)
+# help_menu.winfo_geometry()
+# help_menu.add_command(label="About", command=about_help_menu)
+# menubar.add_cascade(label="Help", menu=help_menu)
+
 default_image = Image.open("img/start_barcode.png")
 default_image = ImageTk.PhotoImage(default_image)
 label = ttk.Label(
@@ -53,4 +73,6 @@ barcode_area.focus()
 cal_btn = ttk.Button(frame, text='Generate barcode', command=generate_barcode, padding=7, width=28)
 cal_btn.grid(row=2, column=2, pady=10)
 
-window.mainloop()
+if __name__ == "__main__":
+    # window.config(menu=menubar)
+    window.mainloop()
