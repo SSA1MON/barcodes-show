@@ -49,10 +49,10 @@ def generate_barcode(event=None):
             img = my_barcode.render()
         img = ImageTk.PhotoImage(img)
 
-        label.config(text=input_text)
+        label.config(text='')
         label_barcode_info.config(text=str(barcode_type))
-        label.image = img
-        label.config(image=label.image)
+        start_barcode.image = img
+        start_barcode.config(image=start_barcode.image)
 
         barcode_area.delete(0, tk.END)
         barcode_area.focus()
@@ -67,6 +67,7 @@ window.iconbitmap(default="favicon.ico")
 window.title('Barcodes show')
 window.geometry('650x500')
 window.minsize(650, 500)
+window.config(background='white')
 
 menubar = tk.Menu(window)
 window_menu = tk.Menu(menubar, tearoff=0)
@@ -80,12 +81,16 @@ help_menu.add_command(label="About", command=about_help_menu)
 
 default_image = Image.open("img/start_barcode.png")
 default_image = ImageTk.PhotoImage(default_image)
-label = ttk.Label(
-    image=default_image, compound="top", font=('Arial Black', 32)
+start_barcode = ttk.Label(
+    image=default_image, compound="top", font=('Arial', 1),
+    background='white'
 )
+start_barcode.pack()
+
+label = ttk.Label(font=('Arial Black', 32), background='white')
 label.pack()
 
-frame = tk.Frame(master=window)
+frame = tk.Frame(master=window, background='white')
 frame.pack(expand=True)
 
 barcode_area = tk.Entry(frame, width=30)
@@ -93,13 +98,14 @@ barcode_area.grid(row=1, column=2)
 barcode_area.bind("<Return>", generate_barcode)
 barcode_area.focus()
 
+gen_btn_style = ttk.Style().configure('TButton', background='white')
 cal_btn = ttk.Button(
     frame, text='Сгенерировать штрих-код',
-    command=generate_barcode, padding=7, width=28
+    command=generate_barcode, padding=7, width=28, style='TButton'
 )
 cal_btn.grid(row=2, column=2, pady=10)
 
-label_barcode_info = ttk.Label(foreground='#D5CABD')
+label_barcode_info = ttk.Label(foreground='#D5CABD', background='white')
 label_barcode_info.pack()
 
 if __name__ == "__main__":
