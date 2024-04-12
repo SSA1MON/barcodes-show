@@ -1,13 +1,13 @@
 import tkinter as tk
-from tkinter import ttk, S, font
+from tkinter import ttk, S
+import webbrowser
+import sys
+from config import config as cfg
+
+from typing import Union, Type
 from PIL import Image, ImageTk
 from barcode import EAN13, ITF
 from barcode.writer import ImageWriter
-import webbrowser
-import sys
-from typing import Union, Type
-
-from config import config as cfg
 
 
 def open_github_url(event=None):
@@ -59,15 +59,6 @@ def identify_barcode_type(input_text: str) -> Union[Type[ITF], Type[EAN13], None
         elif len(input_text) == 13:
             return EAN13
     return None
-
-
-# def reset_app_data() -> None:
-#     print(default_image)
-#     barcode_area.focus()
-#     default_barcode.image = cfg.default_image
-#     label_barcode_info.config(image=default_barcode, compound='top')
-#     error_label.pack_forget()
-#     default_barcode.pack_forget()
 
 
 def generate_barcode(event=None) -> None:
@@ -144,12 +135,25 @@ barcode_area.grid(row=1, column=2)
 barcode_area.bind('<Return>', generate_barcode)     # bind for the Enter button
 barcode_area.focus()
 
+
+def reset_app_data() -> None:
+    """
+    It works when you click on the "reset" button.
+    Returns the initial image, hides the error label, if there is one.
+    """
+    barcode_area.delete(0, tk.END)
+    barcode_area.focus()
+    default_barcode.image = default_image
+    default_barcode.config(image=default_barcode.image)
+    error_label.pack_forget()
+
+
 # buttons
 btn_style = ttk.Style().configure('TButton', background='white', font=('Arial', 11))
 gen_btn = ttk.Button(frame, text='Сгенерировать', command=generate_barcode, padding=7, width=28)
-# reset_btn = ttk.Button(frame, text='Сброс', command=reset_app_data, padding=7, width=28)
+reset_btn = ttk.Button(frame, text='Сброс', command=reset_app_data, padding=7, width=28)
 gen_btn.grid(row=2, column=2, pady=(10, 2))
-# reset_btn.grid(row=3, column=2)
+reset_btn.grid(row=3, column=2)
 
 # label in the footer
 error_label = ttk.Label(background='white')
